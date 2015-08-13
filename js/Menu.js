@@ -190,7 +190,7 @@ var Menu = function () {
             style: 'position:absolute; top:50%; left:50%;'
         }).appendTo(container);
 
-        var e = new Engine('exercises/' + level + '/exercise-' + level);
+        var e = new Engine('javascripts/exercises/' + level + '/exercise-' + level);
         var ModuleClass = stringToFunction(level + '.' + subject + '.' + topic + '.Module');
         var module = new ModuleClass(e);
 
@@ -198,12 +198,12 @@ var Menu = function () {
     };
 
     var loadModule = function (container, level, subject, topic, depends) {
-        loadScript(container, 'exercises/' + level + '/', 'Level.js');
-        loadScript(container, 'exercises/' + level + '/' + subject + '/', 'Subject.js');
+        loadScript(container, 'javascripts/exercises/' + level + '/', 'Level.js');
+        loadScript(container, 'javascripts/exercises/' + level + '/' + subject + '/', 'Subject.js');
         for (var dependIndex = 0; dependIndex < depends.length; ++dependIndex) {
-            loadTopic(container, 'exercises/' + level + '/' + subject + '/' + depends[dependIndex] + '/js/');
+            loadTopic(container, 'javascripts/exercises/' + level + '/' + subject + '/' + depends[dependIndex] + '/js/');
         }
-        loadTopic(container, 'exercises/' + level + '/' + subject + '/' + topic + '/js/');
+        loadTopic(container, 'javascripts/exercises/' + level + '/' + subject + '/' + topic + '/js/');
     };
 
     var loadScript = function (container, path, file) {

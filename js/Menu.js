@@ -20,7 +20,7 @@
  * @license       http://www.gnu.org/licenses/ GPLv3 License
  */
 
-var Menu = function () {
+var Menu = function (u) {
 
 // public methods
     this.buildMainMenu = function () {
@@ -71,7 +71,7 @@ var Menu = function () {
             container.append(
                 $('<ol/>', { class: 'breadcrumb'}).append(
                         $('<li/>').append(
-                            $('<a/>', { href: '#', onclick: 'new Menu().buildMainMenu();'}).append('Accueil'))).append(
+                            $('<a/>', { href: '#', onclick: 'new Menu("' + root + '").buildMainMenu();'}).append('Accueil'))).append(
                         $('<li/>', { class: 'active' }).append(exercises['levels'][levelIndex]['label']))
             );
             buildSubMenu(container, level, levelIndex, exercises);
@@ -86,11 +86,11 @@ var Menu = function () {
             container.append(
                 $('<ol/>', { class: 'breadcrumb'}).append(
                         $('<li/>').append(
-                            $('<a/>', { href: '#', onclick: 'new Menu().buildMainMenu();'}).append('Accueil'))).append(
+                            $('<a/>', { href: '#', onclick: 'new Menu("' + root + '").buildMainMenu();'}).append('Accueil'))).append(
                         $('<li/>').append(
-                            $('<a/>', { href: '#', onclick: 'new Menu().buildSubMenu(\'' + level + '\',' + levelIndex + ');'}).append(exercises['levels'][levelIndex]['label']))).append(
+                            $('<a/>', { href: '#', onclick: 'new Menu("' + root + '").buildSubMenu(\'' + level + '\',' + levelIndex + ');'}).append(exercises['levels'][levelIndex]['label']))).append(
                         $('<li/>').append(
-                            $('<a/>', { href: '#', onclick: 'new Menu().buildSubMenu(\'' + level + '\',' + levelIndex + ');'}).append(exercises['levels'][levelIndex]['subjects'][subjectIndex]['label']))).append(
+                            $('<a/>', { href: '#', onclick: 'new Menu("' + root + '").buildSubMenu(\'' + level + '\',' + levelIndex + ');'}).append(exercises['levels'][levelIndex]['subjects'][subjectIndex]['label']))).append(
                         $('<li/>', { class: 'active' }).append(exercises['levels'][levelIndex]['subjects'][subjectIndex]['topics'][topicIndex]['label']))
             );
             launchExercise(container, level, levelIndex, subject, subjectIndex, topic, topicIndex, exercises);
@@ -112,7 +112,7 @@ var Menu = function () {
                 });
 
                 element.html('<a class="btn btn-' + colors[k % 4] +
-                    ' ' + button + ' active ' + visible + '" role="button" onclick="new Menu().buildSubMenu(\'' +
+                    ' ' + button + ' active ' + visible + '" role="button" onclick="new Menu(\'' + root + '\').buildSubMenu(\'' +
                     names[k] + '\', ' + k + ');"">' + titles[k] +
                     '<br><i style="font-size: 12px">' + subTitles[k] + '</i></a>');
                 element.appendTo(row);
@@ -156,7 +156,7 @@ var Menu = function () {
 
                 list += '<li class="list-group-item">';
                 if (exercise["version"] > 0) {
-                    list += '<a href="#" onclick="new Menu().launchExercise(' +
+                    list += '<a href="#" onclick="new Menu(\'' + root + '\').launchExercise(' +
                         '\'' + level + '\',' + levelIndex + ',\'' + subject["name"] + '\',' + subject_index + ',\'' + exercise["name"] + '\',' + exercise_index + ');">' + exercise['label'] + '</a>';
                     list += '<span class="glyphicon glyphicon-check" style="float: right"></span>';
                 } else {
@@ -190,7 +190,7 @@ var Menu = function () {
             style: 'position:absolute; top:50%; left:50%;'
         }).appendTo(container);
 
-        var e = new Engine('javascripts/exercises/' + level + '/exercise-' + level);
+        var e = new Engine(root + 'exercises/' + level + '/exercise-' + level, root);
         var ModuleClass = stringToFunction(level + '.' + subject + '.' + topic + '.Module');
         var module = new ModuleClass(e);
 
@@ -198,12 +198,12 @@ var Menu = function () {
     };
 
     var loadModule = function (container, level, subject, topic, depends) {
-        loadScript(container, 'javascripts/exercises/' + level + '/', 'Level.js');
-        loadScript(container, 'javascripts/exercises/' + level + '/' + subject + '/', 'Subject.js');
+        loadScript(container, root + 'exercises/' + level + '/', 'Level.js');
+        loadScript(container, root + 'exercises/' + level + '/' + subject + '/', 'Subject.js');
         for (var dependIndex = 0; dependIndex < depends.length; ++dependIndex) {
-            loadTopic(container, 'javascripts/exercises/' + level + '/' + subject + '/' + depends[dependIndex] + '/js/');
+            loadTopic(container, root + 'exercises/' + level + '/' + subject + '/' + depends[dependIndex] + '/js/');
         }
-        loadTopic(container, 'javascripts/exercises/' + level + '/' + subject + '/' + topic + '/js/');
+        loadTopic(container, root + 'exercises/' + level + '/' + subject + '/' + topic + '/js/');
     };
 
     var loadScript = function (container, path, file) {
@@ -245,8 +245,18 @@ var Menu = function () {
         return  fn;
     };
 
+// private methods
+    var init = function (u) {
+        root = u;
+    };
+
+// private attributes
+    var root;
+    var values;
     var titles = [];
     var subTitles = [];
     var names = [];
     var colors = ['primary', 'success', 'warning', 'info'];
+
+    init(u);
 };

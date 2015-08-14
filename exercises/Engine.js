@@ -20,7 +20,7 @@
  * @license       http://www.gnu.org/licenses/ GPLv3 License
  */
 
-var Engine = function (r) {
+var Engine = function (r, u) {
 
 // public methods
     this.init = function (m) {
@@ -50,6 +50,10 @@ var Engine = function (r) {
 
     this.next2 = function () {
         module.nextQuestion(currentExercise, currentModule);
+    };
+
+    this.url = function () {
+        return url;
     };
 
 // private methods
@@ -599,6 +603,7 @@ var Engine = function (r) {
 
 // private attributes
     var root = r;
+    var url = u;
     var module;
     var view;
 

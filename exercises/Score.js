@@ -44,14 +44,14 @@ var Score = function (v) {
     };
 
     this.load = function(level, subject, topic) {
-        var key = 'pepit:'+level+':'+subject+':'+topic;
+        var key = 'primschool:'+level+':'+subject+':'+topic;
 
         if (localStorage[key]) {
             values = JSON.parse(localStorage[key]);
         }
     };
     this.save = function(level, subject, topic) {
-        localStorage['pepit:'+level+':'+subject+':'+topic] = JSON.stringify(values);
+        localStorage['primschool:'+level+':'+subject+':'+topic] = JSON.stringify(values);
     };
 
 // private methods

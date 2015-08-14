@@ -44,9 +44,9 @@ var Menu = function (u) {
                 names[level_index] = exercises['levels'][level_index]['name'];
             }
 
-            buildMainMenu(container, 3, 4, 'visible-md visible-lg', 'col-md-3', 'btn-md');
-            buildMainMenu(container, 4, 3, 'visible-sm', 'col-sm-4', 'btn-sm');
-            buildMainMenu(container, 6, 2, 'visible-xs', 'col-xs-6', 'btn-xs');
+            buildMainMenu(container, 2, 4, 'visible-md visible-lg', 'col-md-3', 'btn-md');
+            buildMainMenu(container, 3, 3, 'visible-sm', 'col-sm-4', 'btn-sm');
+            buildMainMenu(container, 4, 2, 'visible-xs', 'col-xs-6', 'btn-xs');
         });
     };
 
@@ -107,16 +107,18 @@ var Menu = function (u) {
                 style: 'padding: 10px'
             });
             for (var j = 1; j <= jMax; j++) {
-                var element = $('<div/>', {
-                    class: col + ' ' + visible
-                });
+                if (titles[k]) {
+                    var element = $('<div/>', {
+                        class: col + ' ' + visible
+                    });
 
-                element.html('<a class="btn btn-' + colors[k % 4] +
-                    ' ' + button + ' active ' + visible + '" role="button" onclick="new Menu(\'' + root + '\').buildSubMenu(\'' +
-                    names[k] + '\', ' + k + ');"">' + titles[k] +
-                    '<br><i style="font-size: 12px">' + subTitles[k] + '</i></a>');
-                element.appendTo(row);
-                k++;
+                    element.html('<a class="btn btn-' + colors[k % 4] +
+                        ' ' + button + ' active ' + visible + '" role="button" onclick="new Menu(\'' + root + '\').buildSubMenu(\'' +
+                        names[k] + '\', ' + k + ');"">' + titles[k] +
+                        '<br><i style="font-size: 12px">' + subTitles[k] + '</i></a>');
+                    element.appendTo(row);
+                    k++;
+                }
             }
             row.appendTo(container);
         }
